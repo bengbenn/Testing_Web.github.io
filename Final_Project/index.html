@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>PocketShield</title>
+  <link rel="stylesheet" href="style.css" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+</head>
+<body>
+  <div class="container">
+    <!-- Header dengan background dan shapes -->
+    <header class="header">
+      <div class="header-shapes">
+        <div class="shape shape-1"></div>
+        <div class="shape shape-2"></div>
+        <div class="shape shape-3"></div>
+      </div>
+      <div class="header-content">
+        <h1 class="title">Budgeting Otomatis untuk Mahasiswa</h1>
+        <p class="subtitle">Hai-Hai, Kamu Bingung Belum Akhir Bulan Tapi Uang Bulanan Udah Habis??</p>
+        <p>Nih Coba Pake PocketShield Di Jamin Uang Bulananmu Gak Bakal Habis Sebelum Waktunya...</p>
+        <p class="subtitle">Website Ini Dirancang Agar Kamu Bisa Mengatur Uang Bulanan Tanpa Kesusahan</p>
+        <p>Kamu Juga Bisa Mengatur Sendiri Presentasi Kebutuhanmu Sendiri Dan Pastinya Simple</p>
+        <p class="subtitle">Say No To Uang Habis...</p>
+      </div>
+    </header>
+
+    <!-- Input Section -->
+    <section class="input-section">
+      <div class="input-grid">
+        <div class="input-group">
+          <label>Penghasilan Bulanan (Rp)</label>
+          <div class="input-with-icon">
+            <svg class="icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1" />
+            </svg>
+            <input type="number" id="incomeInput" placeholder="Contoh: 2000000" />
+          </div>
+        </div>
+
+        <div class="input-group">
+          <label>Tanggal Mulai</label>
+          <div class="input-with-icon">
+            <svg class="icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+            </svg>
+            <input type="date" id="startDateInput" />
+          </div>
+        </div>
+
+        <div class="input-group">
+          <label>Tanggal Akhir</label>
+          <div class="input-with-icon">
+            <svg class="icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+            </svg>
+            <input type="date" id="endDateInput" />
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Summary Cards -->
+    <section class="summary-cards">
+      <div class="card">
+        <div class="card-icon">
+          <svg class="icon-green" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6" />
+          </svg>
+        </div>
+        <h3>Durasi Periode</h3>
+        <p id="totalDays">0 hari</p>
+      </div>
+
+      <div class="card">
+        <div class="card-icon">
+          <svg class="icon-blue" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1" />
+          </svg>
+        </div>
+        <h3>Budget Harian</h3>
+        <p id="dailyBudget">Rp 0</p>
+      </div>
+
+      <div class="card">
+        <div class="card-icon">
+          <svg class="icon-purple" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+          </svg>
+        </div>
+        <h3>Sisa Hari</h3>
+        <p id="remainingDays">0 hari</p>
+      </div>
+    </section>
+
+    <!-- Budget Allocation -->
+    <section class="budget-section">
+      <div class="budget-header">
+        <h2>Alokasi Anggaran</h2>
+        <div>
+          <p>Total Dialokasikan: <span id="totalAllocated">Rp 0</span></p>
+          <p>Belum dialokasikan: <span id="unallocatedAmount">Rp 0</span></p>
+        </div>
+      </div>
+
+      <div id="budgetItemsContainer">
+        <!-- Budget items will be dynamically inserted here -->
+      </div>
+    </section>
+
+    <!-- Warnings -->
+    <section id="warningsSection" class="warning-section hidden">
+      <div class="warning-content">
+        <svg class="warning-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.964-.833-2.732 0L3.732 16.5c-.77.833.192 2.5 1.732 2.5z" />
+        </svg>
+        <div>
+          <h3>Peringatan</h3>
+          <ul id="warningsList"></ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- Export Button -->
+    <section class="export-section">
+      <button id="downloadTxtBtn" class="btn btn-green">
+        <svg class="btn-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
+        </svg>
+        Unduh Laporan (TXT)
+      </button>
+      <button id="downloadPdfBtn" class="btn btn-red">
+        <svg class="btn-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
+        </svg>
+        Unduh Laporan (PDF)
+      </button>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+      <p>💡 Tips: Sesuaikan alokasi anggaran sesuai kebutuhan Anda. Prioritaskan kebutuhan pokok seperti makan dan transportasi!</p>
+    </footer>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
